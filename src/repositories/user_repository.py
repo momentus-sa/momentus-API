@@ -1,4 +1,4 @@
-"""Módulo do repositório usuário, que cria uma camada intermediária entre o banco de dados do usuário e o sistema"""
+"""Módulo que cria uma camada intermediária entre o banco de dados do usuário e o sistema"""
 from uuid import uuid4 as uuid
 from datetime import datetime
 from werkzeug.security import generate_password_hash
@@ -28,6 +28,10 @@ class UserRepository:
 
         return user
 
+    def get_all_users(self):
+        """Retorna todos os usuários"""
+        return User.query.all()
+
     def find_by_email(self, email: str) -> User:
         """
         Retorna um usuário que possui o email especificado no parâmetro |
@@ -45,7 +49,7 @@ class UserRepository:
         Retorna um usuário que possui o id especificado no parâmetro |
         caso não encontre nenhum usuário com o id especificado, retorna False
         """
-        user = User.query.filter_by(id=user_id)
+        user = User.query.filter_by(id=user_id).first()
         if user is None:
             return False
 
