@@ -1,5 +1,5 @@
 """Módulo que registra as rotas dos usuários"""
-from flask import Blueprint, request, jsonify
+from flask import Blueprint
 from src.controller.users_controller import UserController
 
 users_controller = UserController()
