@@ -1,6 +1,6 @@
-"""Módulo para criar os usuários"""
-from datetime import datetime, timezone
-from werkzeug.security import generate_password_hash
+"""Módulo para gerenciar os serviços de usuário"""
+# from datetime import datetime, timezone
+# from werkzeug.security import generate_password_hash
 from marshmallow import ValidationError
 from src.models.user import User
 from src.schemas.user_schema import UserSchema
@@ -21,6 +21,7 @@ class UserServices:
         self.user_schema = UserSchema()
         self.user_repository = UserRepository()
 
+    #Não pode criar usuário com mesmo nome
     def create_user(self, data: dict):
         """ Valida os dados para a criação de um usuário"""
         try:
@@ -43,7 +44,7 @@ class UserServices:
         user_dict = user.to_dict()
         user_dict.pop('password_hash', None)
 
-        return user_dict
+        return user_dict()
 
     def get_user_by_id(self, user_id):
         """Retorna o usuário com o id especificado"""
@@ -52,11 +53,11 @@ class UserServices:
         return user.to_dict()
 
     def update_user(self, user_id:str, updated_data:dict)-> User:
-        #Tem que validar né pae
         """Atualiza os dados do usuário com base no dicionário especificado"""
         user = self.user_repository.find_by_id(user_id)
+        
         if not user:
-            raise ValueError("Usuário não encontrado")
+            return False
 
         updated_user = self.user_repository.update(user_id, **updated_data)
 

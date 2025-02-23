@@ -1,18 +1,16 @@
 """Módulo que cria uma camada intermediária entre o banco de dados do usuário e o sistema"""
-from uuid import uuid4 as uuid
 from datetime import datetime
 from werkzeug.security import generate_password_hash
 from src.models.user import User
 from src.extensions import db
 
 
-class UserRepository:
+class UserRepository():
     """Classe que interliga o banco de dados do usuário e o sistema"""
 
     def create(self, name: str, email: str, password: str, birth_date: str, profile_image_url: str = None, user_type='client') -> User:
         """Cria um novo usuário no banco de dados"""
         user = User(
-            id=str(uuid()),
             name=name,
             email=email,
             password_hash=generate_password_hash(password),
