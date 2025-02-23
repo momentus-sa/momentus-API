@@ -29,6 +29,17 @@ class UserRepository():
     def get_all_users(self):
         """Retorna todos os usuários"""
         return User.query.all()
+    
+    def find_by_name(self, name: str) ->  User:
+        """Retorna um usuário que possui o nome especificado no parâmetro |
+        caso não encontre nenhum usuário com o nome especificado, retorna False
+        """
+        user = User.query.filter_by(name = name).first()
+
+        if user is None:
+            return False
+
+        return user
 
     def find_by_email(self, email: str) -> User:
         """

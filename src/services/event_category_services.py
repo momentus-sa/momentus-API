@@ -4,7 +4,7 @@ from src.schemas.event_categories_schema import EventCategorySchema
 from src.models.event_category import EventCategory
 from src.repositories.event_category_repository import EventCategoryRepository
 
-# Não criar duas categorias com o mesmo nome
+#Não criar duas categorias com o mesmo nome
 #Cria a lógica do programa no services
 
 class EventCategoryServices():

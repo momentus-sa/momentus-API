@@ -23,13 +23,29 @@ class UserServices:
 
     #Não pode criar usuário com mesmo nome
     def create_user(self, data: dict):
-        """ Valida os dados para a criação de um usuário"""
+        """Valida os dados para a criação de um usuário"""
         try:
             user_data = self.user_schema.load(data)
-            return self.user_repository.create(**user_data)
 
         except ValidationError as e:
             raise ValueError(f"Erro de validação: {e.messages}") from e
+       
+        self._validate_unique_user_fields(user_data)
+
+        return self.user_repository.create(**user_data)
+
+    def _validate_unique_user_fields(self, user_data):
+        """Função que valida se a condição de unicidade dos campos do usuário são satisfeitas"""
+
+        user_name = user_data["name"]
+        user_email = user_data["email"]
+
+        if self.user_repository.find_by_name(user_name):
+            raise ValueError("Erro de validação: Já existe um usuário com o nome especificado")
+
+        if self.user_repository.find_by_email(user_email):
+            raise ValueError("Erro de validação: Já existe um usuário com o email especificado")
+
 
     def get_all_users(self):
         """Retorna todos os usuários"""
