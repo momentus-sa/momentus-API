@@ -1,6 +1,6 @@
 """ Módulo destinado a definção do usuário no banco de dados"""
-from sqlalchemy.dialects.postgresql import UUID
 import uuid
+from sqlalchemy.dialects.postgresql import UUID
 from src.extensions import db
 
 
