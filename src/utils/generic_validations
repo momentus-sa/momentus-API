@@ -1,0 +1,11 @@
+import re
+
+#é so um exemplo para eu me lembrar que isso existe
+def is_valid_email(email):
+    """Valida se o e-mail possui o formato correto."""
+    email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return bool(re.match(email_regex, email))
+
+def is_strong_password(password):
+    """Valida se a senha é forte o suficiente."""
+    return len(password) >= 8 and any(char.isdigit() for char in password)
