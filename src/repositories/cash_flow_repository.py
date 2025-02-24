@@ -3,7 +3,7 @@ from datetime import datetime
 from src.extensions import db
 from src.models.cash_flow import CashFlow
 
-
+#Adicionar o evento que está associado
 class CashFlowRepository():
     """Classe interliga o banco de dados das categorias de evento e o sistema"""
 

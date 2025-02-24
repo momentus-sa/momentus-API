@@ -11,13 +11,13 @@ cash_flow_bp = Blueprint(
 )
 
 
-@cash_flow_bp.post("/create")
+@cash_flow_bp.post("/")
 def create_cash_flow():
-    """Cria um novo fluxo de caixa. Retorna o status da criação (sucesso ou erro)."""
+    """Cria um novo fluxo de caixa e retorna o status da criação."""
     return cash_flow_controller.create_cash_flow()
 
 
-@cash_flow_bp.get("/id/<int:cash_flow_id>")
+@cash_flow_bp.get("/<int:cash_flow_id>")
 def get_cash_flow_by_id(cash_flow_id):
     """Retorna o fluxo de caixa pelo ID especificado."""
     return cash_flow_controller.get_cash_flow_by_id(cash_flow_id)

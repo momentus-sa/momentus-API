@@ -5,7 +5,7 @@ class CashFlowSchema(Schema):
     """Esquema de validação do fluxo de caixa"""
 
     cash_flow_id = fields.Int(dump_only=True)
-    event_id = fields.Int(required= True)  # Pode ser None se não for obrigatório
+    #event_id = fields.Int(required= True)  # Pode ser None se não for obrigatório
     title = fields.Str(required=True, validate=validate.Length(min=3, max=50))
     description = fields.Str(validate=validate.Length(max=200))
     flow_type = fields.Str(required=True, validate=validate.OneOf(["earning", "expenses"]))

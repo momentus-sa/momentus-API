@@ -14,13 +14,14 @@ class UserRepository():
         user = User(
             name=name,
             email=email,
-            password_hash=generate_password_hash(password),
             birth_date=birth_date,
             profile_image_url=profile_image_url,
             created_at=datetime.utcnow(),
             updated_at=datetime.utcnow(),
             user_type=user_type
         )
+
+        user.set_password(password)
 
         db.session.add(user)
         db.session.commit()

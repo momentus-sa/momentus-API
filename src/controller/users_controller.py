@@ -11,6 +11,24 @@ class UserController(object):
     def __init__(self):
         self.service = UserServices()
 
+
+    def login(self) -> tuple[Response, int]:
+        """Autentica o usuário e gera um token JWT"""
+        if not request.is_json:
+            return jsonify({"error": "O corpo da requisição deve estar no formato JSON"}), 400
+
+        data = request.get_json()
+        email = data.get("email")
+        password = data.get("password")
+
+        try:
+            access_token = self.service.login(email, password)
+
+            return jsonify({"access_token": access_token}), 200
+
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+
     def create_user(self) -> tuple[Response, int]:
         """Serviço que cria um usuário"""
         if not request.is_json:

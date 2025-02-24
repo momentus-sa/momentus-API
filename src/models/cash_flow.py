@@ -7,7 +7,7 @@ class CashFlow(db.Model):
     __tablename__ = 'cash_flows'
 
     cash_flow_id = db.Column(db.Integer, primary_key=True,nullable=False, autoincrement=True)
-    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'))
+    #event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'))
     title = db.Column(db.String(50), nullable = False)
     description = db.Column(db.String(200))
     flow_type = db.Column(db.Enum('earning', 'expenses', name = 'flow_type', nullable= False))

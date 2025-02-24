@@ -1,6 +1,6 @@
 """Módulo para gerenciar os serviços de usuário"""
 # from datetime import datetime, timezone
-# from werkzeug.security import generate_password_hash
+from flask_jwt_extended import create_access_token
 from marshmallow import ValidationError
 from src.models.user import User
 from src.schemas.user_schema import UserSchema
@@ -15,6 +15,28 @@ class UserServices:
     def __init__(self):
         self.user_schema = UserSchema()
         self.user_repository = UserRepository()
+
+    def login(self, email: str, password: str) -> str:
+        """Verifica credenciais do usuário e retorna um token JWT"""
+
+        if not email:
+            raise ValueError("Email is not provided", 400)
+
+        if not password:
+            raise ValueError("Password is not provided", 400)
+
+        user = self.user_repository.find_by_email(email)
+
+        if not user:
+            raise ValueError(f"User {email} doesn't exist", 400)
+
+        if not user.check_password(password):
+            raise ValueError("Incorrect password", 401)
+
+        access_token = create_access_token(identity=user.user_id)
+
+        return access_token
+
 
     def create_user(self, data: dict) -> User:
         """Valida os dados para a criação de um usuário"""

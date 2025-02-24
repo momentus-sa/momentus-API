@@ -14,6 +14,6 @@ def register_routes(app):
     """Registra todas as rotas da API de forma centralizada"""
     momentus_bp.register_blueprint(user_bp)
     momentus_bp.register_blueprint(event_category_bp)
-    # momentus_bp.register_blueprint(cash_flow_bp)
+    momentus_bp.register_blueprint(cash_flow_bp)
 
     app.register_blueprint(momentus_bp)

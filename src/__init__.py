@@ -2,7 +2,7 @@
 from flask import Flask, request, jsonify
 from src.routes import register_routes
 from config import DevelopmentConfig, ProductionConfig
-from src.extensions import db, migrate
+from src.extensions import db, migrate, jwt
 from src.models import *
 
 
@@ -11,8 +11,10 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(DevelopmentConfig)
 
+    #Extensões:
     db.init_app(app)
     migrate.init_app(app, db)
+    jwt.init_app(app)
 
     register_routes(app)
 
