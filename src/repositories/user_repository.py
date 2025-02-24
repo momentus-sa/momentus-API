@@ -8,6 +8,7 @@ from src.extensions import db
 class UserRepository():
     """Classe que interliga o banco de dados do usuário e o sistema"""
 
+    #definit o created_at como default no model
     def create(self, name: str, email: str, password: str, birth_date: str, profile_image_url: str = None, user_type='client') -> User:
         """Cria um novo usuário no banco de dados"""
         user = User(
@@ -29,11 +30,10 @@ class UserRepository():
     def get_all_users(self):
         """Retorna todos os usuários"""
         return User.query.all()
-    
+
     def find_by_name(self, name: str) ->  User:
         """Retorna um usuário que possui o nome especificado no parâmetro |
-        caso não encontre nenhum usuário com o nome especificado, retorna False
-        """
+        caso não encontre nenhum usuário com o nome especificado, retorna False"""
         user = User.query.filter_by(name = name).first()
 
         if user is None:
@@ -54,29 +54,17 @@ class UserRepository():
         return user
 
     def find_by_id(self, user_id: str) -> User:
-        """
-        Retorna um usuário que possui o id especificado no parâmetro |
-        caso não encontre nenhum usuário com o id especificado, retorna False
-        """
-        user = User.query.filter_by(id=user_id).first()
+        """Retorna um usuário que possui o id especificado no parâmetro |
+        caso não encontre nenhum usuário com o id especificado, retorna None"""
+        user = User.query.filter_by(user_id=user_id).first()
         if user is None:
-            return False
+            return None
 
         return user
 
-    def delete(self, user_id: str) -> bool:
-        """Deleta o usuário com o id especificado"""
-        user = self.find_by_id(user_id)
-        if not user:
-            return False
-
-        db.session.delete(user)
-        db.session.commit()
-
-        return True
-
-    def update(self, user_id: str, **kwargs) -> bool:
-        """Altera os atributos do usuário com base nos atributos fornecidos"""
+    def update(self, user_id: str, **kwargs) -> User:
+        """Altera os atributos do usuário com base nos atributos fornecidos |
+        Caso nao encontre nenhum usuário com o id especificado, retorna False"""
         user = self.find_by_id(user_id)
         if not user:
             return False
@@ -93,3 +81,15 @@ class UserRepository():
         db.session.commit()
 
         return user
+
+    def delete(self, user_id: str) -> bool:
+        """Deleta o usuário com o id especificado e retorna o usuário deletado |
+        Caso nao encontre nenhum usuário com o id especificado, retorna False"""
+        user = self.find_by_id(user_id)
+        if not user:
+            return False
+
+        db.session.delete(user)
+        db.session.commit()
+
+        return True

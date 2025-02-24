@@ -20,7 +20,6 @@ class EventCategoryController(object):
 
         try:
             event_category = self.service.create_category(data)
-
             return jsonify(event_category), 201
 
         except ValueError as e:
@@ -31,10 +30,6 @@ class EventCategoryController(object):
 
         try:
             event_categories = self.service.get_all_categories()
-
-            if not event_categories:
-                return jsonify({"message": "Nenhuma categoria encontrada"}), 404
-
             return jsonify(event_categories), 200
 
         except ValueError as e:

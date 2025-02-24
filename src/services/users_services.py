@@ -6,30 +6,24 @@ from src.models.user import User
 from src.schemas.user_schema import UserSchema
 from src.repositories.user_repository import UserRepository
 
-#regas de negócio (nao criar o mesmo usuário 2 vezes), sao no services
-
 class UserServices:
     """Classe que encapsula a lógica de negócios relacionada a usuários."""
 
     # verificar se o email é válido
     # senha válida
-    # email único
-    # nome único
-    # validar as buscas e etc
 
     def __init__(self):
         self.user_schema = UserSchema()
         self.user_repository = UserRepository()
 
-    #Não pode criar usuário com mesmo nome
-    def create_user(self, data: dict):
+    def create_user(self, data: dict) -> User:
         """Valida os dados para a criação de um usuário"""
         try:
             user_data = self.user_schema.load(data)
 
         except ValidationError as e:
             raise ValueError(f"Erro de validação: {e.messages}") from e
-       
+
         self._validate_unique_user_fields(user_data)
 
         return self.user_repository.create(**user_data)

@@ -1,6 +1,5 @@
 """Módulo destinado ao controller de usuário"""
 from flask import request, jsonify, Response
-# from src.models import User
 from src.services.users_services import UserServices
 
 # estudar padrões de codigo de resposta

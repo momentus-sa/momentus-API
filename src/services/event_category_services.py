@@ -4,9 +4,6 @@ from src.schemas.event_categories_schema import EventCategorySchema
 from src.models.event_category import EventCategory
 from src.repositories.event_category_repository import EventCategoryRepository
 
-#Não criar duas categorias com o mesmo nome
-#Cria a lógica do programa no services
-
 class EventCategoryServices():
     """Classe que encapsula a lógica de negócios relacionada a categoria de eventos."""
     def __init__(self):
@@ -41,7 +38,7 @@ class EventCategoryServices():
         event_categories = EventCategory.query.all()
 
         if not event_categories:
-            return False
+            raise ValueError("Nenhuma categoria de evento encontrada")
 
         return [event_category.to_dict() for event_category in event_categories]
 

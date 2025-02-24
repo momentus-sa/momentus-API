@@ -5,7 +5,7 @@ from src.extensions import db
 # Validação de nao poder criar uma categoria que seja default
 
 class EventCategoryRepository():
-    """"Calasse interliga o banco de dados das categorias de evento e o sistema"""
+    """Classe interliga o banco de dados das categorias de evento e o sistema"""
 
     def create(self, name: str, is_default: bool = True):
         """Cria um novo usuário no banco de dados e retorna o usuário criado"""

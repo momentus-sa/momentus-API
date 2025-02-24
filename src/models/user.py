@@ -6,7 +6,8 @@ from src.extensions import db
 
 class User(db.Model):
     """Classe que define os atributos do usuário no banco de dados"""
-    __tablename__ = 'Users'
+    __tablename__ = 'users'
+
     user_id = db.Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
     name = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(70), unique=True, nullable=False)
@@ -17,7 +18,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime)
     user_type = db.Column(db.Enum('manager', 'client', name='user_type'), nullable=False)
 
-    def to_dict(self):
+    def to_dict(self)->dict:
         """Retorna o objeto User na forma de um dicionário"""
         return {
             "user_id": self.user_id,
