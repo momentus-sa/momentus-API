@@ -21,3 +21,4 @@ if __name__ == '__main__':
 #Adicionar exeptions específicas
 #Retornar os códigos de Erro HTTP no services
 #remover funções crud desnecessárias
+#class meta no schema?

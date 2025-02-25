@@ -1,0 +1,41 @@
+"""Módulo que registra as rotas dos membros de time"""
+from flask import Blueprint
+from src.controller.team_member_controller import TeamMemberController
+
+team_member_controller = TeamMemberController()
+
+team_member_bp = Blueprint(
+    name='team_members',
+    import_name=__name__,
+    url_prefix="/team-members"
+)
+
+@team_member_bp.post("/")
+def create_member():
+    """Cria um novo membro de time e retorna o status da criação."""
+    return team_member_controller.create_member()
+
+@team_member_bp.get("/<int:member_id>")
+def get_member_by_id(member_id):
+    """Retorna o membro com o ID especificado."""
+    return team_member_controller.get_member_by_id(member_id)
+
+@team_member_bp.put("/<int:member_id>")
+def update_member(member_id):
+    """Atualiza os dados do membro com o ID especificado. Retorna o status da atualização."""
+    return team_member_controller.update_member(member_id)
+
+@team_member_bp.delete("/<int:member_id>")
+def delete_member(member_id):
+    """Deleta o membro com o ID especificado. Retorna o status da exclusão."""
+    return team_member_controller.delete_member(member_id)
+
+@team_member_bp.post("/<int:member_id>/roles/<int:role_id>")
+def add_role_to_member(member_id, role_id):
+    """Adiciona uma role a um membro do time."""
+    return team_member_controller.add_role_to_member(member_id, role_id)
+
+@team_member_bp.delete("/<int:member_id>/roles/<int:role_id>")
+def remove_role_from_member(member_id, role_id):
+    """Remove uma role de um membro."""
+    return team_member_controller.remove_role_from_member(member_id, role_id)

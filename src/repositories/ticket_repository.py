@@ -26,7 +26,7 @@ class TicketRepository:
         Caso não encontre nenhum ingresso com o id especificado, retorna None
         """
         return Ticket.query.filter_by(ticket_id=ticket_id).first()
-    
+
     def find_by_type(self, ticket_type: str):
         """Retorna um ingresso que possui o nome especificado no parâmetro |
         Caso não encontre nenhum ingresso com o id especificado, retorna None"""

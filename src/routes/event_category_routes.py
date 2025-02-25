@@ -5,9 +5,9 @@ from src.controller.event_category_controller import EventCategoryController
 event_category_controller = EventCategoryController()
 
 event_category_bp = Blueprint(
-    name='event_category',
+    name='event_categories',
     import_name=__name__,
-    url_prefix="/event-category"
+    url_prefix="/event-categories"
 )
 
 

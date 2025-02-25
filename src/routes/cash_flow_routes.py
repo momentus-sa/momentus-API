@@ -5,9 +5,9 @@ from src.controller.cash_flow_controller import CashFlowController
 cash_flow_controller = CashFlowController()
 
 cash_flow_bp = Blueprint(
-    name='cash_flow',
+    name='cash_flows',
     import_name=__name__,
-    url_prefix="/cash-flow"
+    url_prefix="/cash-flows"
 )
 
 

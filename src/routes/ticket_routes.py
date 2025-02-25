@@ -5,7 +5,7 @@ from src.controller.ticket_controller import TicketController
 ticket_controller = TicketController()
 
 ticket_bp = Blueprint(
-    name='ticket',
+    name='tickets',
     import_name=__name__,
     url_prefix="/tickets"
 )
