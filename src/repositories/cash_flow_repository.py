@@ -16,7 +16,6 @@ class CashFlowRepository():
             value=data["value"],
             answerable=data["answerable"],
             spent_at=data.get("spent_at", datetime.utcnow()),
-            updated_at=datetime.utcnow()
         )
 
         db.session.add(new_cash_flow)

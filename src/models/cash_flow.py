@@ -24,7 +24,7 @@ class CashFlow(db.Model):
             "cash_flow_id": self.cash_flow_id,
             "title": self.title,
             "description": self.description,
-            "flow_tipe": self.flow_type,
+            "flow_type": self.flow_type,
             "value": self.value,
             "answerable": self.answerable,
             "spent_at": self.spent_at,

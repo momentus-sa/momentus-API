@@ -32,15 +32,18 @@ class CashFlowServices:
         """Atualiza os dados do fluxo de caixa com base no dicionário especificado."""
         cash_flow = self.cash_flow_repository.find_by_id(cash_flow_id)
         if not cash_flow:
-            raise ValueError(
-                f"Fluxo de caixa não encontrado com o id: '{cash_flow_id}'.")
+            raise ValueError(f"Fluxo de caixa não encontrado com o id: '{cash_flow_id}'.")
+
+        forbidden_fields = ['cash_flow_id', 'created_at', 'updated_at', 'event_id']
+
+        for field in forbidden_fields:
+            if field in updated_data:
+                raise ValueError(f"O campo '{field}' não pode ser alterado.")
 
         try:
-            updated_data_validated = self.cash_flow_update_schema.load(
-                updated_data)
+            updated_data_validated = self.cash_flow_update_schema.load(updated_data)
         except ValidationError as e:
-            raise ValueError(
-                f"Erro de validação na atualização: {e.messages}") from e
+            raise ValueError(f"Erro de validação na atualização: {e.messages}") from e
 
         updated_cash_flow = self.cash_flow_repository.update(
             cash_flow_id, **updated_data_validated)

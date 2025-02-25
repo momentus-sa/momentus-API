@@ -14,3 +14,10 @@ if __name__ == '__main__':
         db.create_all()
 
     app.run()
+
+
+#Normalizar os retornos (falso/None)
+#Padronizar partes do codigo
+#Adicionar exeptions específicas
+#Retornar os códigos de Erro HTTP no services
+#remover funções crud desnecessárias
