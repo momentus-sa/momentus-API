@@ -23,7 +23,7 @@ class EventCategoryController(object):
             return jsonify(event_category), 201
 
         except ValueError as e:
-            return jsonify({"Error": str(e)}), 400
+            return jsonify({"error": str(e)}), 400
 
     def get_all_event_categories(self) -> tuple[Response, int]:
         """Retorna todas as categorias de evento"""
@@ -33,7 +33,7 @@ class EventCategoryController(object):
             return jsonify(event_categories), 200
 
         except ValueError as e:
-            return jsonify({"Error": str(e)}), 400
+            return jsonify({"error": str(e)}), 400
 
     def get_all_default_event_categories(self) -> tuple[Response, int]:
         """Retorna todas as categorias de evento padrão"""
@@ -47,7 +47,7 @@ class EventCategoryController(object):
             return jsonify(event_default_categories), 200
 
         except ValueError as e:
-            return jsonify({"Error": str(e)}), 400
+            return jsonify({"error": str(e)}), 400
 
     def get_event_category_by_name(self, category_name) -> tuple[Response, int]:
         """Retorna uma categoria que possua o nome especificado"""

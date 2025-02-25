@@ -3,7 +3,7 @@
 from flask_jwt_extended import create_access_token
 from marshmallow import ValidationError
 from src.models.user import User
-from src.schemas.user_schema import UserSchema
+from src.schemas.user_schema import UserSchema, UserUpdateSchema
 from src.repositories.user_repository import UserRepository
 
 class UserServices:
@@ -14,6 +14,7 @@ class UserServices:
 
     def __init__(self):
         self.user_schema = UserSchema()
+        self.user_update_schema = UserUpdateSchema()
         self.user_repository = UserRepository()
 
     def login(self, email: str, password: str) -> str:
@@ -63,35 +64,44 @@ class UserServices:
             raise ValueError("Erro de validação: Já existe um usuário com o email especificado")
 
 
-    def get_all_users(self):
+    def get_all_users(self) -> list[dict]:
         """Retorna todos os usuários"""
         users = self.user_repository.get_all_users()
 
         return [user.to_dict() for user in users]
 
-    def get_user_by_email(self, user_email):
+    def get_user_by_email(self, user_email) -> dict:
         """Retorna o usuário com o email especificado"""
         user = self.user_repository.find_by_email(user_email)
-
-        user_dict = user.to_dict()
-        user_dict.pop('password_hash', None)
-
-        return user_dict()
-
-    def get_user_by_id(self, user_id):
-        """Retorna o usuário com o id especificado"""
-        user = self.user_repository.find_by_id(user_id)
+        if not user:
+            raise ValueError(f"Usuário com email '{user_email}' não encontrado")
 
         return user.to_dict()
 
-    def update_user(self, user_id:str, updated_data:dict)-> User:
-        """Atualiza os dados do usuário com base no dicionário especificado"""
+    def get_user_by_id(self, user_id) -> dict:
+        """Retorna o usuário com o id especificado"""
         user = self.user_repository.find_by_id(user_id)
-        
         if not user:
-            return False
+            raise ValueError(f"Usuário com ID '{user_id}' não encontrado")
 
-        updated_user = self.user_repository.update(user_id, **updated_data)
+        return user.to_dict()
+
+    def update_user(self, user_id: str, updated_data: dict) -> dict:
+        """Atualiza os dados do usuário com base no dicionário especificado."""
+        user = self.user_repository.find_by_id(user_id)
+
+        if not user:
+            raise ValueError(f"Usuário não encontrado com o ID: '{user_id}'.")
+
+        try:
+            updated_data_validated = self.user_update_schema.load(updated_data)
+        except ValidationError as e:
+            raise ValueError(f"Erro de validação na atualização: {e.messages}") from e
+
+        if "name" in updated_data_validated or "email" in updated_data_validated:
+            self._validate_unique_user_fields(updated_data_validated)
+
+        updated_user = self.user_repository.update(user_id, **updated_data_validated)
 
         if not updated_user:
             raise ValueError("Falha ao atualizar o usuário")

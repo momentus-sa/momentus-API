@@ -1,6 +1,6 @@
 """Módulo destinado a definção dos fluxos de caixa no banco de dados"""
+from datetime import datetime
 from src.extensions import db
-
 
 class CashFlow(db.Model):
     """Classe que define os atributos dos fluxos de caixa no banco de dados"""
@@ -14,7 +14,9 @@ class CashFlow(db.Model):
     value = db.Column(db.Numeric(precision= 10, scale= 2), nullable= False)
     answerable = db.Column(db.String(50), nullable= False)
     spent_at = db.Column(db.DateTime)
-    updated_at = db.Column(db.DateTime)
+
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def to_dict(self)->dict:
         """Retorna o objeto CashFlow na forma de dicionário"""

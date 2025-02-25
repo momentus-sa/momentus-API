@@ -2,6 +2,7 @@
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import UUID
+from datetime import datetime
 from src.extensions import db
 
 
@@ -15,9 +16,11 @@ class User(db.Model):
     password_hash = db.Column(db.String(256), nullable=False)
     birth_date = db.Column(db.Date)
     profile_image_url = db.Column(db.String(255))
-    created_at = db.Column(db.DateTime)
-    updated_at = db.Column(db.DateTime)
     user_type = db.Column(db.Enum('manager', 'client', name='user_type'), nullable=False)
+
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+
 
     def to_dict(self) -> dict:
         """Retorna o objeto User na forma de um dicionário"""

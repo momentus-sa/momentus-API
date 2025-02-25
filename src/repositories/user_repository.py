@@ -16,8 +16,6 @@ class UserRepository():
             email=email,
             birth_date=birth_date,
             profile_image_url=profile_image_url,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
             user_type=user_type
         )
 
@@ -73,12 +71,11 @@ class UserRepository():
         for key, value in kwargs.items():
             if hasattr(user, key):
                 if key == "password":
-                    value = generate_password_hash(value)
+                    value = user.set_password(user)
                     key = "password_hash"
 
             setattr(user, key, value)
 
-        user.updated_at = datetime.utcnow()
         db.session.commit()
 
         return user
