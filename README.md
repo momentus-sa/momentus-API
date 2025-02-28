@@ -45,7 +45,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-- A seguir você precisará criar o arquivo ´.env´ e configurar seu banco de dados conforme o arquivo ´.venv template´.
+- A seguir você precisará criar o arquivo `.env` e configurar seu banco de dados conforme o arquivo `.venv template`.
 
 - Em seguida, basta executar no terminal
 
