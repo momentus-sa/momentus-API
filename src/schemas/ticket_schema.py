@@ -10,6 +10,7 @@ class TicketSchema(Schema):
     """Esquema de validação para ingressos"""
 
     ticket_id = fields.Int(dump_only=True)
+    event_id = fields.Int(required=True)
     ticket_type = fields.Str(required=True, validate=validate.Length(min=3, max=50))
     price = fields.Decimal(required=True, as_string=True, places=2, validate=validate_positive)
     total_available_quantity = fields.Int(required=False, missing=0, validate=validate.Range(min=0))

@@ -16,6 +16,7 @@ class CashFlowRepository():
             value=data["value"],
             answerable=data["answerable"],
             spent_at=data.get("spent_at", datetime.utcnow()),
+            event_id=data["event_id"]
         )
 
         db.session.add(new_cash_flow)
@@ -61,3 +62,9 @@ class CashFlowRepository():
         db.session.commit()
 
         return cash_flow
+
+    # isso nao deveria estar em eventos?
+    def get_cash_flows_by_event(self, event_id: int) -> list:
+        """Retorna todos os fluxos de caixa associados a um evento."""
+        cash_flows = CashFlow.query.filter_by(event_id=event_id).all()
+        return cash_flows

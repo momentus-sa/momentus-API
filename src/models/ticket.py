@@ -7,20 +7,22 @@ class Ticket(db.Model):
     __tablename__ = 'tickets'
 
     ticket_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    #event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), nullable=False)
     ticket_type = db.Column(db.String(50), nullable=False)
     price = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     total_available_quantity = db.Column(db.Integer, nullable=False, default=0)
     sold_quantity = db.Column(db.Integer, nullable=False, default=0)
 
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)  
+
+    event = db.relationship('Event', back_populates='tickets')
 
     def to_dict(self) -> dict:
         """Retorna o objeto Ticket na forma de um dicionário"""
         return {
             "ticket_id": self.ticket_id,
-            #"event_id": self.event_id,
+            "event_id": self.event_id,
             "ticket_type": self.ticket_type,
             "price": str(self.price),
             "total_available_quantity": self.total_available_quantity,

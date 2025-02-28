@@ -32,6 +32,21 @@ def get_current_user():
     current_user_id = get_jwt_identity()
     return users_controller.get_user_by_id(current_user_id)
 
+
+@user_bp.get("/<uuid:user_id>/events")
+@jwt_required()
+def get_user_events(user_id):
+    """Retorna os eventos do usuário com o id especificado"""
+    return users_controller.get_user_events(user_id)
+
+
+@user_bp.get("/<uuid:user_id>/event_ids")
+@jwt_required()
+def get_user_event_ids(user_id):
+    """Retorna os IDs dos eventos de um usuário com o id especificado"""
+    return users_controller.get_user_event_ids(user_id)
+
+
 @user_bp.put("/update")
 @jwt_required()
 def update_user():

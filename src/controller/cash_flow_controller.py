@@ -36,10 +36,10 @@ class CashFlowController(object):
     def update_cash_flow(self, cash_flow_id: int) -> tuple[Response, int]:
 
         """Atualiza os dados do fluxo de caixa com o ID especificado"""
-        data = request.get_json()
-
         if not request.is_json:
             return jsonify({"error": "O corpo da requisição deve estar no formato JSON"}), 400
+
+        data = request.get_json()
 
         try:
             updated_cash_flow = self.service.update_cash_flow(cash_flow_id, data)
@@ -54,5 +54,15 @@ class CashFlowController(object):
         try:
             self.service.delete_cash_flow(cash_flow_id)
             return jsonify({"message": "Fluxo de caixa deletado com sucesso"}), 200
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+
+    def get_cash_flows_by_event(self, event_id: int) -> tuple[Response, int]:
+        """Retorna todos os fluxos de caixa do evento com o ID especificado"""
+        try:
+            cash_flows = self.service.get_cash_flows_by_event(event_id)
+            return jsonify(cash_flows), 200
+        except KeyError:
+            return jsonify({"error": "Evento não encontrado"}), 404
         except ValueError as e:
             return jsonify({"error": str(e)}), 400

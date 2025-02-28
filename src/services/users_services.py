@@ -16,6 +16,18 @@ class UserServices:
         self.user_schema = UserSchema()
         self.user_update_schema = UserUpdateSchema()
         self.user_repository = UserRepository()
+    
+    def _validate_unique_user_fields(self, user_data):
+        """Função que valida se a condição de unicidade dos campos do usuário são satisfeitas"""
+
+        user_name = user_data.get("name")
+        user_email = user_data.get("email")
+
+        if self.user_repository.find_by_name(user_name):
+            raise ValueError("Erro de validação: Já existe um usuário com o nome especificado")
+
+        if self.user_repository.find_by_email(user_email):
+            raise ValueError("Erro de validação: Já existe um usuário com o email especificado")
 
     def login(self, email: str, password: str) -> str:
         """Verifica credenciais do usuário e retorna um token JWT"""
@@ -38,7 +50,6 @@ class UserServices:
 
         return access_token
 
-
     def create_user(self, data: dict) -> User:
         """Valida os dados para a criação de um usuário"""
         try:
@@ -50,25 +61,6 @@ class UserServices:
         self._validate_unique_user_fields(user_data)
 
         return self.user_repository.create(**user_data)
-
-    def _validate_unique_user_fields(self, user_data):
-        """Função que valida se a condição de unicidade dos campos do usuário são satisfeitas"""
-
-        user_name = user_data["name"]
-        user_email = user_data["email"]
-
-        if self.user_repository.find_by_name(user_name):
-            raise ValueError("Erro de validação: Já existe um usuário com o nome especificado")
-
-        if self.user_repository.find_by_email(user_email):
-            raise ValueError("Erro de validação: Já existe um usuário com o email especificado")
-
-
-    def get_all_users(self) -> list[dict]:
-        """Retorna todos os usuários"""
-        users = self.user_repository.get_all_users()
-
-        return [user.to_dict() for user in users]
 
     def get_user_by_email(self, user_email) -> dict:
         """Retorna o usuário com o email especificado"""
@@ -85,6 +77,21 @@ class UserServices:
             raise ValueError(f"Usuário com ID '{user_id}' não encontrado")
 
         return user.to_dict()
+
+    #tirar esse raise
+    def get_user_events(self, user_id: str) -> list[dict]:
+        """Retorna todos os eventos associados ao usuário especificado"""
+        events = self.user_repository.get_user_events(user_id)
+
+        if not events:
+            raise ValueError(f"Usuário com ID '{user_id}' não possui eventos ou não foi encontrado")
+
+        return events
+
+    def get_user_event_ids(self, user_id: str) -> list[str]:
+        """Retorna os IDs dos eventos de um usuário específico"""
+        event_ids = self.user_repository.get_event_ids_by_user_id(user_id)
+        return event_ids
 
     def update_user(self, user_id: str, updated_data: dict) -> dict:
         """Atualiza os dados do usuário com base no dicionário especificado."""
@@ -107,3 +114,10 @@ class UserServices:
             raise ValueError("Falha ao atualizar o usuário")
 
         return updated_user.to_dict()
+
+
+    # def get_all_users(self) -> list[dict]:
+    #     """Retorna todos os usuários"""
+    #     users = self.user_repository.get_all_users()
+
+    #     return [user.to_dict() for user in users]

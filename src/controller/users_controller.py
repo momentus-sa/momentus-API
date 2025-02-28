@@ -47,14 +47,6 @@ class UserController(object):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
-    def get_all_users(self) -> list[Response, int]:
-        """Retorna todos os usuários do banco de dados"""
-        try:
-            users = self.service.get_all_users()
-            return jsonify(users), 200
-        except ValueError as e:
-            return jsonify({"error": str(e)}), 400
-
     def get_user_by_id(self, user_id) -> tuple[Response, int]:
         """Retorna o usuário com o id especificado"""
         try:
@@ -69,6 +61,22 @@ class UserController(object):
         try:
             user = self.service.get_user_by_email(user_email)
             return jsonify(user), 200
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+        
+    def get_user_events(self, user_id) -> tuple[Response, int]:
+        """Retorna todos os eventos do usuário com o id especificado"""
+        try:
+            events = self.service.get_user_events(user_id)
+            return jsonify(events), 200
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+        
+    def get_user_event_ids(self, user_id: str) -> tuple[Response, int]:
+        """Retorna os IDs dos eventos de um usuário específico"""
+        try:
+            event_ids = self.service.get_user_event_ids(user_id)
+            return jsonify({"event_ids": event_ids}), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
@@ -88,3 +96,12 @@ class UserController(object):
             return jsonify(user), 202
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
+
+
+    # def get_all_users(self) -> list[Response, int]:
+    #     """Retorna todos os usuários do banco de dados"""
+    #     try:
+    #         users = self.service.get_all_users()
+    #         return jsonify(users), 200
+    #     except ValueError as e:
+    #         return jsonify({"error": str(e)}), 400

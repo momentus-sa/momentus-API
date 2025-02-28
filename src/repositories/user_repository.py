@@ -1,9 +1,9 @@
 """Módulo que cria uma camada intermediária entre o banco de dados do usuário e o sistema"""
 from datetime import datetime
 from werkzeug.security import generate_password_hash
-from src.models.user import User
 from src.extensions import db
-
+from src.models.user import User
+from src.models.event import Event
 
 class UserRepository():
     """Classe que interliga o banco de dados do usuário e o sistema"""
@@ -25,10 +25,6 @@ class UserRepository():
         db.session.commit()
 
         return user
-
-    def get_all_users(self):
-        """Retorna todos os usuários"""
-        return User.query.all()
 
     def find_by_name(self, name: str) ->  User:
         """Retorna um usuário que possui o nome especificado no parâmetro |
@@ -61,6 +57,21 @@ class UserRepository():
 
         return user
 
+    def get_user_events(self, user_id: str) -> list[Event]:
+        """Retorna todos os eventos associados ao usuário especificado"""
+        user = self.find_by_id(user_id)
+        if not user:
+            return None
+
+        return [event for event in user.events]
+
+    def get_event_ids_by_user_id(self, user_id: str) -> list[str]:
+        """Retorna os IDs dos eventos de um usuário específico"""
+        events = Event.query.filter_by(user_id=user_id).all()
+        event_ids = [event.id for event in events]
+
+        return event_ids
+
     def update(self, user_id: str, **kwargs) -> User:
         """Altera os atributos do usuário com base nos atributos fornecidos |
         Caso nao encontre nenhum usuário com o id especificado, retorna False"""
@@ -91,3 +102,8 @@ class UserRepository():
         db.session.commit()
 
         return True
+
+
+    # def get_all_users(self):
+    #     """Retorna todos os usuários"""
+    #     return User.query.all()

@@ -29,6 +29,22 @@ class TicketController(object):
             return jsonify(ticket), 200
         except ValueError as e:
             return jsonify({"error": str(e)}), 404
+        
+    def get_tickets_by_event(self, event_id: int) -> tuple[Response, int]:
+        """Retorna todos os ingressos associados a um determinado evento"""
+        try:
+            tickets = self.service.get_tickets_by_event(event_id)
+            return jsonify(tickets), 200
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+
+    def get_available_tickets(self, event_id: int) -> tuple[Response, int]:
+        """Retorna os ingressos disponíveis para um evento específico"""
+        try:
+            available_tickets = self.service.get_available_tickets(event_id)
+            return jsonify(available_tickets), 200
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
 
     def update_ticket(self, ticket_id: int) -> tuple[Response, int]:
         """Atualiza os dados do ingresso com o ID especificado"""
@@ -44,14 +60,6 @@ class TicketController(object):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
-    def delete_ticket(self, ticket_id: int) -> tuple[Response, int]:
-        """Deleta o ingresso com o ID especificado"""
-        try:
-            self.service.delete_ticket(ticket_id)
-            return jsonify({"message": "Ingresso deletado com sucesso"}), 200
-        except ValueError as e:
-            return jsonify({"error": str(e)}), 404
-
     def sell_ticket(self, ticket_id: int) -> tuple[Response, int]:
         """Realiza a venda de ingressos"""
         if not request.is_json:
@@ -64,16 +72,16 @@ class TicketController(object):
             if quantity is None or quantity <= 0:
                 return jsonify({"error": "A quantidade deve ser um número positivo."}), 400
 
-            updated_ticket = self.service.sell_ticket(ticket_id, quantity)
+            updated_ticket = self.service.sell_tickets(ticket_id, quantity)
             return jsonify(updated_ticket), 200
 
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
-    def get_available_tickets(self, event_id: int) -> tuple[Response, int]:
-        """Retorna os ingressos disponíveis para um evento específico"""
+    def delete_ticket(self, ticket_id: int) -> tuple[Response, int]:
+        """Deleta o ingresso com o ID especificado"""
         try:
-            available_tickets = self.service.get_available_tickets(event_id)
-            return jsonify(available_tickets), 200
+            self.service.delete_ticket(ticket_id)
+            return jsonify({"message": "Ingresso deletado com sucesso"}), 200
         except ValueError as e:
-            return jsonify({"error": str(e)}), 400
+            return jsonify({"error": str(e)}), 404

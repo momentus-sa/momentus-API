@@ -5,9 +5,9 @@ from src.controller.cash_flow_controller import CashFlowController
 cash_flow_controller = CashFlowController()
 
 cash_flow_bp = Blueprint(
-    name='cash_flow',
+    name='cash_flows',
     import_name=__name__,
-    url_prefix="/cash-flow"
+    url_prefix="/cash-flows"
 )
 
 
@@ -33,3 +33,8 @@ def update_cash_flow(cash_flow_id):
 def delete_cash_flow(cash_flow_id):
     """Deleta o fluxo de caixa com o ID especificado. Retorna o status da exclusão."""
     return cash_flow_controller.delete_cash_flow(cash_flow_id)
+
+@cash_flow_bp.get("/event/<int:event_id>")
+def get_cash_flows_by_event(event_id):
+    """Retorna todos os fluxos de caixa do evento com o ID especificado."""
+    return cash_flow_controller.get_cash_flows_by_event(event_id)

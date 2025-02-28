@@ -1,8 +1,8 @@
 """ Módulo destinado a definção do usuário no banco de dados"""
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import UUID
 from src.extensions import db
 
 
@@ -21,39 +21,27 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    # Relacionamento 1xN com Event
+    events = db.relationship("Event", back_populates="event_creator", cascade="all, delete-orphan")
 
     def to_dict(self) -> dict:
         """Retorna o objeto User na forma de um dicionário"""
         return {
-            "user_id": self.user_id,
+            "user_id": str(self.user_id),
             "name": self.name,
             "email": self.email,
-            "birth_date": self.birth_date,
+            "birth_date": self.birth_date.strftime("%Y-%m-%d") if self.birth_date else None,
             "profile_image_url": self.profile_image_url,
             "user_type": self.user_type,
             "created_at": self.created_at.strftime("%d/%m/%Y %H:%M"),
             "updated_at": self.updated_at.strftime("%d/%m/%Y %H:%M"),
         }
 
-
-    def to_dict_with_password(self):
-        """Returno o objeto User na forma de dicinonário (com senha)"""
-        return {
-            "user_id": self.user_id,
-            "name": self.name,
-            "email": self.email,
-            "password_hash": self.password_hash,
-            "birth_date": self.birth_date,
-            "profile_image_url": self.profile_image_url,
-            "user_type": self.user_type,
-            "created_at": self.created_at.strftime("%d/%m/%Y %H:%M"),
-            "updated_at": self.updated_at.strftime("%d/%m/%Y %H:%M"),
-        }
-
-    def set_password(self, password):
-        """Salva o hash da senha especificada como senha do usuário"""
+    def set_password(self, password: str) -> None:
+        """Gera o hash da senha e armazena no campo password_hash"""
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password) ->bool:
-        """"Checa se o hash da senha do usuário e a senha fornecida são os mesmos"""
+    def check_password(self, password: str) -> bool:
+        """Verifica se a senha fornecida confere com o hash armazenado"""
         return check_password_hash(self.password_hash, password)
+    
