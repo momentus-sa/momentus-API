@@ -15,15 +15,15 @@ class TeamMemberRepository:
             member_name=data["member_name"],
             event_id=data["event_id"],
             role=data["role"],
-            tasks=data.get("tasks")
         )
 
-        tasks_data = data.get("tasks", [])
-        for task_name in tasks_data:
-            task = self.task_repository.find_by_name(task_name)
-            if not task:
-                task = self.task_repository.create(task_name)
-            new_member.tasks.append(task)
+        #por enquanto nao da pra criar task junto com a criação do membro
+        # tasks_data = data.get("task", [])
+        # for task_name in tasks_data:
+        #     task = self.task_repository.find_by_name(task_name)
+        #     if not task:
+        #         task = self.task_repository.create(task_name)
+        #     new_member.tasks.append(task)
 
         db.session.add(new_member)
         db.session.commit()

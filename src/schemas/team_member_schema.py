@@ -8,7 +8,7 @@ class TeamMemberSchema(Schema):
     member_name = fields.Str(required=True, validate=validate.Length(min=3, max=100))
     role = fields.Str(required= True, validate=validate.Length(min=2, max=50))
     event_id = fields.Int(required=True)
-    tasks = fields.List(fields.Str(), required=False)
+    task = fields.List(fields.Str(), required=False)
 
 class TeamMemberUpdateSchema(Schema):
     """Schema para atualização de dados do TeamMember"""

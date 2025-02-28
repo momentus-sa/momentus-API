@@ -6,16 +6,19 @@ from src.models.team_member import TeamMember
 class TaskRepository:
     """Classe que gerencia as tarefas no banco de dados"""
 
-    def create(self, task_name: str) -> Task:
+    def create(self, data:dict) -> Task:
         """Cria uma nova tarefa"""
-        new_task = Task(task_name=task_name)
+        new_task = Task(
+            name= data["name"],
+            description= data["description"]
+        )
         db.session.add(new_task)
         db.session.commit()
         return new_task
 
     def find_by_name(self, task_name: str) -> Task:
         """Retorna uma tarefa com base no nome fornecido"""
-        return Task.query.filter_by(task_name=task_name).first()
+        return Task.query.filter_by(name=task_name).first()
 
     def find_by_id(self, task_id: int) -> Task:
         """Retorna uma tarefa com base no ID fornecido"""

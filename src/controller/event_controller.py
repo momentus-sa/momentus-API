@@ -51,9 +51,8 @@ class EventController(object):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
-    def get_all_user_events(self) -> tuple[Response, int]:
+    def get_all_user_events(self, user_id) -> tuple[Response, int]:
         """Retorna todos os eventos do usuário"""
-        user_id = get_jwt_identity()
 
         try:
             events = self.service.get_all_user_events(user_id)

@@ -22,6 +22,7 @@ class Task(db.Model):
         return {
             'task_id': self.task_id,
             'name': self.name,
+            'description': self.description,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
         }

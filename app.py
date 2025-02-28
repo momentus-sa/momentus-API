@@ -9,7 +9,6 @@ if not load_dotenv(override=True):
 app = create_app()
 
 if __name__ == '__main__':
-    #Remover no deploy
     with app.app_context():
 
         db.create_all()

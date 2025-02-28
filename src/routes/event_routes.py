@@ -37,14 +37,14 @@ def get_upcoming_events():
     return event_controller.get_upcoming_events()
 
 
-@event_bp.get('/my_events')
-@jwt_required()
-def get_all_user_events():
+@event_bp.get('/user/:user_id')
+def get_all_user_events(user_id:int):
     """Retorna todos os eventos"""
-    return event_controller.get_all_user_events()
+    return event_controller.get_all_user_events(user_id)
 
 
 @event_bp.get('/category/<int:category_id>')
+@jwt_required()
 def get_events_by_category(category_id: int):
     """Retorna todos os eventos associados a uma categoria específica"""
     return event_controller.get_events_by_category(category_id)

@@ -1,6 +1,7 @@
 """Módulo destinado ao controller de usuário"""
 from flask import request, jsonify, Response
 from src.services.users_services import UserServices
+from flask_jwt_extended import get_jwt_identity
 
 # estudar padrões de codigo de resposta
 # regras sobre o dado (a string obtida), sao no controller
@@ -64,8 +65,9 @@ class UserController(object):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
         
-    def get_user_events(self, user_id) -> tuple[Response, int]:
+    def get_user_events(self) -> tuple[Response, int]:
         """Retorna todos os eventos do usuário com o id especificado"""
+        user_id = get_jwt_identity()
         try:
             events = self.service.get_user_events(user_id)
             return jsonify(events), 200

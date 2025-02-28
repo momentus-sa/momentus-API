@@ -17,7 +17,6 @@ class User(db.Model):
     birth_date = db.Column(db.Date)
     profile_image_url = db.Column(db.String(255))
     user_type = db.Column(db.Enum('manager', 'client', name='user_type'), nullable=False)
-
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
