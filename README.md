@@ -32,16 +32,16 @@ Crie um ambiente virtual python
 python -m venv .venv
 ```
 
-- Instale as dependências
-
-```
-pip install -r requirements.txt
-```
-
 - Ative o ambiente virtual
 
 ```
 ./.venv/Scripts/activate.ps1
+```
+
+- Instale as dependências
+
+```
+pip install -r requirements.txt
 ```
 
 - A seguir você precisará criar o arquivo ´.env´ e configurar seu banco de dados conforme o arquivo ´.venv template´.
