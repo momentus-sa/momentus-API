@@ -4,61 +4,58 @@
 
 ## Descrição
 
-A _momentus_ é uma plataforma intuitiva projetada para facilitar a organização e gerenciamento de eventos de médio e pequeno porte. O sistema permite que organizadores criem, administrem e divulguem eventos, enquanto os participantes podem explorar opções, confirmar presença e interagir com as programações disponíveis. A plataforma conta com a criação e organização de eventos com detalhes completos como data, local e capacidade, além de um dashboard administrativo completo que oferece controle total sobre eventos cadastrados e participações. O sistema possui uma interface responsiva que oferta uma experiência otimizada para desktop e mobile.
+A momentus-API é a base que alimenta a plataforma Momentus, permitindo a criação, gestão e participação em eventos de forma eficiente e escalável. Desenvolvida com um backend robusto em Python utilizando Flask e banco de dados PostgreSQL, a API fornece endpoints seguros para operações como cadastro de eventos, gerenciamento de usuários, controle de ingressos e interações entre participantes e organizadores.
+Com suporte a autenticação JWT, arquitetura RESTful e documentação clara, a momentus-API facilita a integração com diferentes front-ends e serviços externos.
+
+Projetada para ser escalável e flexível, a API permite que organizadores tenham controle total sobre seus eventos, enquanto os participantes desfrutam de uma experiência fluida e intuitiva.
 
 ## Pré-requisitos
 
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas: [Git](https://git-scm.com), [Node.js](https://nodejs.org/pt). Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com)
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas: [Git](https://git-scm.com), [Python](https://nodejs.org/pt), [PostgreSQL](https://www.postgresql.org/). Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com) Todas as instruções de comandos são para windows.
 
 ### Iniciando o servidor
 - Clone este repositório
 
 ```
-git clone https://github.com/momentus-sa/momentus.git
+git clone https://github.com/momentus-sa/momentus-API.git
 ```
 
 - Acesse a pasta no terminal/CMD
 
 ```
-cd momentus
+cd momentus-API
+```
+
+Crie um ambiente virtual python
+
+```
+python -m venv .venv
 ```
 
 - Instale as dependências
 
 ```
-npm install
+pip install -r requirements.txt
 ```
 
-- Execute a aplicação em modo de desenvolvimento
+- Ative o ambiente virtual
 
 ```
-npm run dev
+./.venv/Scripts/activate.ps1
 ```
 
-- O servidor inciará na porta:3000: http://localhost:3000
+- A seguir você precisará criar o arquivo ´.env´ e configurar seu banco de dados conforme o arquivo ´.venv template´.
+
+- Em seguida, basta executar no terminal
+
+```
+python app.py
+```
+
+- O servidor inciará na porta:5000: [http://localhost:3000](http://127.0.0.1:5000)
 
 ### Website
 
-- Algumas capturas de tela que mostram o fluxo de usuário
-
-<table>
-  <tr>
-    <td align="center"><img src="https://github.com/user-attachments/assets/21b4ba39-3758-44b4-8bb5-e16b19a073e9" alt="Imagem 1" width="450px"><br />Imagem 1 - Login</td>
-   <td align="center"><img src="https://github.com/user-attachments/assets/86e777dc-4de5-4799-8719-d12c5db092cc" alt="Imagem 1" width="450px"><br />Imagem 2 - Perfil do Usuário</td>
-  </tr>
-  <tr>
-    <td align="center"><img src="https://github.com/user-attachments/assets/345b24c4-9f30-4552-b235-b8472cd46826" alt="Imagem 1" width="450px"><br />Imagem 3 - Dashboard</td>
-    <td align="center"><img src="https://github.com/user-attachments/assets/56ee7d1f-92f2-44b1-88c4-d635a9842a42" alt="Imagem 1" width="450px"><br />Imagem 4 - Ingressos</td>
-  </tr>
-  <tr>
-    <td align="center"><img src="https://github.com/user-attachments/assets/7690f727-ea6a-4798-83a0-dd8c37b9a95a" alt="Imagem 1" width="450px"><br />Imagem 5 - Time</td>
-    <td align="center"><img src="https://github.com/user-attachments/assets/5eb424ea-0df5-42f3-8e86-6673eb4a19d6" alt="Imagem 1" width="450px"><br />Imagem 6 - Finanças</td>
-  </tr>
-  <tr>
-    <td align="center"><img src="https://github.com/user-attachments/assets/611969c6-9751-4a52-8a11-6d5000188871" alt="Imagem 1" width="450px"><br />Imagem 7 - Cronograma</td>
-    <td align="center"><img src="https://github.com/user-attachments/assets/b5eeffa4-8466-48c3-b05a-b8f5a9c89d2d" alt="Imagem 1" width="450px"><br />Imagem 8 - Página do evento</td>
-  </tr>
-</table>
 
 ## Tecnologias
 
