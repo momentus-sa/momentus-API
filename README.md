@@ -54,17 +54,25 @@ python app.py
 
 - O servidor inciará na porta:5000: [http://localhost:3000](http://127.0.0.1:5000)
 
-## ⚠️ Observação
+⚠️ Observação
 
 Não compreendo muito bem o porquê, mas isso parece estar relacionado ao **PYTHONPATH**.  
 O código só funciona corretamente quando executado com:  
 
-´´´
+```
 python -m app
-´´´
+```
+
 
 No meu computador eu fiz alguma configuração para corrigir isso, mas não lembro exatamente o que era.
 De qualquer forma, funciona. 🚀
+
+
+## Documentação
+Caso queira aprender sobre os endpoints da momentus-API e como usá-la, verifique a documentação no postman:
+
+#### 📖[Momentus-API-Docs](https://web.postman.co/documentation/35177931-5ca99b43-d556-4fb0-a3f2-b646031b96e5/publish?workspaceId=b1ff0c41-aba9-41a0-852f-c0cca414eaaf)
+
 
 ## Tecnologias
 
