@@ -39,33 +39,43 @@ class EventServices:
         events = self.event_repository.get_upcoming_events()
         return [event.to_dict() for event in events]
 
-    def update_event(self, event_id: int, updated_data: dict) -> dict:
-        """Atualiza os dados do evento com base no dicionário especificado."""
-        event = self.event_repository.find_by_id(event_id)
+    def get_all_user_events(self, user_id: str) -> list[dict]:
+        """Retorna todos os eventos criados por um usuário especificado."""
+        events = self.event_repository.get_all_user_events(user_id)
+        return [event.to_dict() for event in events]
+
+    def update_event(self, event_id: int, updated_data: dict, user_id: str) -> tuple:
+        """Lógica de negócios para atualizar um evento, garantindo que o usuário seja o dono"""
+        event = self.event_repository.get_by_id(event_id)
         if not event:
             raise ValueError(f"Evento não encontrado com o id: '{event_id}'.")
+
+        if str(event.event_creator_id) != str(user_id):
+            return {"error": "Você não tem permissão para atualizar este evento."}, 403
 
         try:
-            updated_data_validated = self.event_update_schema.load(updated_data)
+            validated_data = self.event_update_schema.load(updated_data)
         except ValidationError as e:
-            raise ValueError(f"Erro de validação na atualização: {e.messages}") from e
+            return {"error": f"Erro de validação: {e.messages}"}, 400
 
-        updated_event = self.event_repository.update(event_id, **updated_data_validated)
+        updated_event = self.event_repository.update(event_id, **validated_data)
         if not updated_event:
-            raise ValueError("Falha ao atualizar o evento.")
+            return {"error": "Erro ao tentar atualizar o evento."}, 500
 
-        return updated_event.to_dict()
+        return updated_event.to_dict(), 200
 
-    def deactivate_event(self, event_id: int) -> dict:
-        """Desativa um evento (define o campo 'active' como False)."""
-        event = self.event_repository.deactivate_event(event_id)
-        if not event:
-            raise ValueError(f"Evento não encontrado com o id: '{event_id}'.")
-        return event.to_dict()
-
-    def delete_event(self, event_id: int) -> dict:
+    def delete_event(self, event_id: int, user_id) -> dict:
         """Deleta o evento com o ID especificado."""
-        event = self.event_repository.delete(event_id)
+
+        event = self.event_repository.get_by_id(event_id)
         if not event:
             raise ValueError(f"Evento não encontrado com o id: '{event_id}'.")
-        return event.to_dict()
+
+        if str(event.event_creator_id) != str(user_id):
+            return {"error": "Você não tem permissão para excluir este evento."}, 403
+
+        deleted_event = self.event_repository.delete(event_id)
+        if not deleted_event:
+            raise ValueError(f"Erro ao tentar deletar o evento com o id: '{event_id}'.")
+
+        return {"message": "Evento deletado com sucesso."}, 200

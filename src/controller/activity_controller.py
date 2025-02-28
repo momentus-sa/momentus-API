@@ -1,7 +1,8 @@
 """Módulo destinado ao controller das atividades"""
 from flask import request, jsonify, Response
-from src.services.activity_services import ActivityServices
+from marshmallow import ValidationError
 from datetime import timedelta
+from src.services.activity_services import ActivityServices
 
 class ActivityController:
     """Classe que representa o controller das atividades"""
@@ -65,7 +66,7 @@ class ActivityController:
     def get_upcoming_activities(self, event_id) -> tuple[Response, int]:
         """Retorna todas as atividades futuras"""
         time_window_str = request.args.get("time_window", "7")  # Pega da URL, padrão 7 dias
-        
+
         try:
             time_window = timedelta(days=int(time_window_str))  # Converte para inteiro
             activities = self.service.get_upcoming_activities(event_id, time_window)

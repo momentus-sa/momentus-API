@@ -1,5 +1,7 @@
 """Módulo destinado ao controller dos eventos"""
 from flask import request, jsonify, Response
+from flask_jwt_extended import get_jwt_identity
+from uuid import UUID
 from src.services.event_services import EventServices
 
 class EventController(object):
@@ -14,6 +16,9 @@ class EventController(object):
             return jsonify({"error": "O corpo da requisição deve estar no formato JSON"}), 400
 
         data = request.get_json()
+
+        user_id = get_jwt_identity()
+        data['event_creator_id'] = user_id
 
         try:
             event = self.service.create_event(data)
@@ -38,6 +43,16 @@ class EventController(object):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
+    def get_all_user_events(self) -> tuple[Response, int]:
+        """Retorna todos os eventos do usuário"""
+        user_id = get_jwt_identity()
+
+        try:
+            events = self.service.get_all_user_events(user_id)
+            return jsonify(events), 200
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+
     def get_upcoming_events(self) -> tuple[Response, int]:
         """Retorna todos os eventos que ainda não aconteceram"""
         try:
@@ -53,25 +68,28 @@ class EventController(object):
 
         data = request.get_json()
 
+        user_id = get_jwt_identity()
         try:
-            updated_event = self.service.update_event(event_id, data)
+            user_id = UUID(user_id)  # Converte para UUID
+        except ValueError:
+            return jsonify({"error": "ID de usuário inválido"}), 400
+
+        try:
+            updated_event = self.service.update_event(event_id, data, user_id=user_id)
             return jsonify(updated_event), 202
 
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
-    def deactivate_event(self, event_id: int) -> tuple[Response, int]:
-        """Desativa o evento com o ID especificado"""
-        try:
-            deactivated_event = self.service.deactivate_event(event_id)
-            return jsonify(deactivated_event), 200
-        except ValueError as e:
-            return jsonify({"error": str(e)}), 404
-
     def delete_event(self, event_id: int) -> tuple[Response, int]:
         """Deleta o evento com o ID especificado"""
+        user_id = get_jwt_identity()
         try:
-            self.service.delete_event(event_id)
-            return jsonify({"message": "Evento deletado com sucesso"}), 200
+            user_id = UUID(user_id)
+        except ValueError:
+            return jsonify({"error": "ID de usuário inválido"}), 400
+
+        try:
+            return self.service.delete_event(event_id, user_id)
         except ValueError as e:
             return jsonify({"error": str(e)}), 404

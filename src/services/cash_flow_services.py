@@ -25,7 +25,7 @@ class CashFlowServices:
         self._get_event_or_raise(cash_flow_data["event_id"])
 
         cash_flow = self.cash_flow_repository.create(cash_flow_data)
-        
+
         self._update_event_budget(cash_flow.event_id, cash_flow.value, cash_flow.flow_type)
 
         return cash_flow.to_dict()
@@ -100,7 +100,7 @@ class CashFlowServices:
 
     def _get_event_or_raise(self, event_id: int):
         """Obtém um evento ou levanta um erro caso não seja encontrado."""
-        event = self.event_repository.get_event_by_id(event_id)
+        event = self.event_repository.get_by_id(event_id)
         if not event:
             raise ValueError(f"Nenhum evento encontrado com id: '{event_id}'")
         return event

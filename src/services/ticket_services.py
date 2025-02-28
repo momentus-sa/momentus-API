@@ -20,7 +20,7 @@ class TicketServices:
 
     def _validate_event_exists(self, event_id: int) -> None:
         """Verifica se o 'event_id' fornecido existe no banco de dados."""
-        if not self.event_repository.find_by_id(event_id):
+        if not self.event_repository.get_by_id(event_id):
             raise ValueError(f"Evento com o ID '{event_id}' não encontrado.")
 
     def create_ticket(self, data: dict) -> dict:

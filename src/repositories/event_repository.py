@@ -48,6 +48,10 @@ class EventRepository:
         """Retorna um evento com o nome especificado | Caso não encontre nenhum, etorna None"""
         return Event.query.filter_by(name=name).first()
 
+    def get_all_user_events(self, user_id: str):
+        """Retorna todos os eventos criados por um usuário específico."""
+        return Event.query.filter_by(event_creator_id=user_id).all()
+
     def get_all(self) -> list[Event]:
         """Retorna todos os eventos registrados"""
         return Event.query.all()
@@ -67,19 +71,6 @@ class EventRepository:
             if hasattr(event, key):
                 setattr(event, key, value)
 
-        db.session.commit()
-
-        return event
-
-    def deactivate_event(self, event_id: int) -> Event:
-        """Desativa um evento (define o campo 'active' como False)"""
-        event = Event.query.filter_by(event_id=event_id).first()
-
-        if not event:
-            return None  # Caso o evento não seja encontrado
-
-        # Alterando o status para inativo
-        event.active = False
         db.session.commit()
 
         return event

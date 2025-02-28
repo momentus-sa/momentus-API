@@ -23,6 +23,7 @@ class TicketSchema(Schema):
 class TicketUpdateSchema(TicketSchema):
     """Esquema de validação para atualização de ingressos"""
 
+    event_id = fields.Int(dump_only= True, required= False)
     ticket_type = fields.Str(required=False, validate=validate.Length(min=3, max=50))
     price = fields.Decimal(required=False, as_string=True, places=2, validate=validate_positive)
     total_available_quantity = fields.Int(required=False, validate=validate.Range(min=0))

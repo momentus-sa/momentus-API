@@ -25,6 +25,7 @@ class CashFlow(db.Model):
         """Retorna o objeto CashFlow na forma de dicionário"""
         return {
             "cash_flow_id": self.cash_flow_id,
+            "event_id": self.event_id,
             "title": self.title,
             "description": self.description,
             "flow_type": self.flow_type,

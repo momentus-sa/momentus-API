@@ -46,7 +46,7 @@ class ActivityRepository:
         Retorna as atividades que ainda não aconteceram e estão dentro de uma janela de tempo próxima do evento especificado.
         O parâmetro 'time_window' define a proximidade, por exemplo, 7 dias antes do evento.
         """
-        event = self.event_repository.find_by_id(event_id)
+        event = self.event_repository.get_by_id(event_id)
         if not event:
             return []
 

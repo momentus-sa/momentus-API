@@ -2,6 +2,7 @@
 # from datetime import datetime, timezone
 from flask_jwt_extended import create_access_token
 from marshmallow import ValidationError
+from datetime import timedelta
 from src.models.user import User
 from src.schemas.user_schema import UserSchema, UserUpdateSchema
 from src.repositories.user_repository import UserRepository
@@ -46,7 +47,7 @@ class UserServices:
         if not user.check_password(password):
             raise ValueError("Incorrect password", 401)
 
-        access_token = create_access_token(identity=user.user_id)
+        access_token = create_access_token(identity=user.user_id, expires_delta=timedelta(hours=2))
 
         return access_token
 
