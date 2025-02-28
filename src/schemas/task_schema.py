@@ -7,7 +7,6 @@ class TaskSchema(Schema):
     task_id = fields.Int(dump_only=True)
     name = fields.Str(required=True, validate=validate.Length(min=3, max=50))
     description = fields.Str(required=True, validate=validate.Length(min=5, max=200))
-    event_id = fields.Int(required=True)
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
 

@@ -22,6 +22,9 @@ class Event(db.Model):
     # Relacionamento 1xN com User
     event_creator_id = db.Column(UUID(as_uuid=True), db.ForeignKey("users.user_id"), nullable=False)
     event_creator = db.relationship("User", back_populates="events")
+    # Relacionamento 1:N com event_category
+    event_category_id = db.Column(db.Integer, db.ForeignKey('event_categories.event_category_id'), nullable=True)
+    category = db.relationship('EventCategory', back_populates='events')
     # Relacionamento 1:N com CashFlow
     cash_flows = db.relationship('CashFlow', back_populates='event', cascade='all, delete-orphan')
     #Relacionamento 1:N com Ticket:
@@ -43,8 +46,9 @@ class Event(db.Model):
             "event_creator_name": self.event_creator.name,
             "event_date": self.event_date,
             "active": self.active,
+            "category": self.category.name if self.category else None,
             #"event_creator": self.event_creator.to_dict() if self.event_creator else None,
-            #"cash_flows": [cash_flow.to_dict() for cash_flow in self.cash_flows],
+            "budget": self.budget,
             "tickets": [ticket.to_dict() for ticket in self.tickets],
             "created_at": self.created_at.strftime("%d/%m/%Y %H:%M"),
             "updated_at": self.updated_at.strftime("%d/%m/%Y %H:%M"),

@@ -25,10 +25,15 @@ class EventSchema(Schema):
     tickets = fields.List(fields.Nested('TicketSchema', dump_only=True))
     activities = fields.List(fields.Nested('ActivitySchema', dump_only=True))
 
+    #Relacionamento com categoria de evento
+    event_category_id = fields.Int(required=False)
+    category = fields.Nested('EventCategorySchema', dump_only=True)
+
 class EventUpdateSchema(EventSchema):
     """Esquema de validação para atualização de eventos"""
 
     event_id = fields.Int(dump_only=True)
+    event_category_id = fields.Int(allow_none=True)
     name = fields.Str(validate=validate.Length(min=3, max=50))
     description = fields.Str(validate=validate.Length(max=200))
     location = fields.Str(validate=validate.Length(max=100))

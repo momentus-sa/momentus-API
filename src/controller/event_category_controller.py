@@ -59,6 +59,17 @@ class EventCategoryController(object):
                 return jsonify({"message": "Nenhuma categoria encontrada com o nome especificado"}), 404
 
             return jsonify(event_category), 200
- 
+
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+
+    def delete_category(self, event_category_id: int):
+        """Rota para excluir uma categoria de evento pelo ID"""
+        event_category_services = EventCategoryServices()
+
+        try:
+            result = event_category_services.delete_category(event_category_id)
+            return jsonify(result), 200
+
         except ValueError as e:
             return jsonify({"error": str(e)}), 400

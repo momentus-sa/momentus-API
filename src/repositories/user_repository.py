@@ -91,17 +91,17 @@ class UserRepository():
 
         return user
 
-    def delete(self, user_id: str) -> bool:
-        """Deleta o usuário com o id especificado e retorna o usuário deletado |
-        Caso nao encontre nenhum usuário com o id especificado, retorna False"""
-        user = self.find_by_id(user_id)
-        if not user:
-            return False
+    # def delete(self, user_id: str) -> bool:
+    #     """Deleta o usuário com o id especificado e retorna o usuário deletado |
+    #     Caso nao encontre nenhum usuário com o id especificado, retorna False"""
+    #     user = self.find_by_id(user_id)
+    #     if not user:
+    #         return False
 
-        db.session.delete(user)
-        db.session.commit()
+    #     db.session.delete(user)
+    #     db.session.commit()
 
-        return True
+    #     return True
 
 
     # def get_all_users(self):

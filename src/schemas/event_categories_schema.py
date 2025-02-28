@@ -1,5 +1,5 @@
 """Módulo que define o esquema de categorias de eventos e o valida"""
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validate, pre_load
 
 #Con(c/s)ertar essas validações
 class EventCategorySchema(Schema):

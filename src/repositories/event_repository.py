@@ -60,6 +60,10 @@ class EventRepository:
         """Retorna os eventos que ainda não aconteceram (baseado na data atual)"""
         return Event.query.filter(Event.event_date > db.func.now()).all()
 
+    def get_events_by_category(self, event_category_id):
+        """Retorna todos os eventos associados a uma categoria específica"""
+        return Event.query.filter_by(event_category_id=event_category_id).all()
+
     def update(self, event_id: int, **kwargs) -> Event:
         """Atualiza os campos do evento de acordo com os valores fornecidos | Caso não encontre nenhum evento com o id especificado, retorna None"""
         event = self.get_by_id(event_id)

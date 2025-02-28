@@ -44,6 +44,12 @@ class EventServices:
         events = self.event_repository.get_all_user_events(user_id)
         return [event.to_dict() for event in events]
 
+    def get_events_by_category(self, category_id: int):
+        """Retorna todos os eventos associados a uma categoria."""
+        events = self.event_repository.get_events_by_category(category_id)
+
+        return [event.to_dict() for event in events]
+
     def update_event(self, event_id: int, updated_data: dict, user_id: str) -> tuple:
         """Lógica de negócios para atualizar um evento, garantindo que o usuário seja o dono"""
         event = self.event_repository.get_by_id(event_id)
@@ -62,7 +68,7 @@ class EventServices:
         if not updated_event:
             return {"error": "Erro ao tentar atualizar o evento."}, 500
 
-        return updated_event.to_dict(), 200
+        return updated_event.to_dict()
 
     def delete_event(self, event_id: int, user_id) -> dict:
         """Deleta o evento com o ID especificado."""

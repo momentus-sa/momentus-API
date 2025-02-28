@@ -23,7 +23,13 @@ def get_all_default_event_categories():
     return event_category_controller.get_all_default_event_categories()
 
 
-#Desnecessário
+@event_category_bp.delete('/<int:event_category_id>')
+def delete_category(event_category_id: int):
+    """Deleta uma categoria pelo id especificado"""
+    return event_category_controller.delete_category(event_category_id)
+
+
+# Desnecessário
 @event_category_bp.get("/all")
 def get_all_event_categories():
     """Retorna todas as categorias de evento, incluindo as padrão e personalizadas."""

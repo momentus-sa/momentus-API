@@ -23,6 +23,12 @@ def get_cash_flow_by_id(cash_flow_id):
     return cash_flow_controller.get_cash_flow_by_id(cash_flow_id)
 
 
+@cash_flow_bp.get("/event/<int:event_id>")
+def get_cash_flows_by_event(event_id):
+    """Retorna todos os fluxos de caixa do evento com o ID especificado."""
+    return cash_flow_controller.get_cash_flows_by_event(event_id)
+
+
 @cash_flow_bp.put("/<int:cash_flow_id>")
 def update_cash_flow(cash_flow_id):
     """Atualiza o fluxo de caixa com o ID especificado. Retorna o status da atualização."""
@@ -33,8 +39,3 @@ def update_cash_flow(cash_flow_id):
 def delete_cash_flow(cash_flow_id):
     """Deleta o fluxo de caixa com o ID especificado. Retorna o status da exclusão."""
     return cash_flow_controller.delete_cash_flow(cash_flow_id)
-
-@cash_flow_bp.get("/event/<int:event_id>")
-def get_cash_flows_by_event(event_id):
-    """Retorna todos os fluxos de caixa do evento com o ID especificado."""
-    return cash_flow_controller.get_cash_flows_by_event(event_id)

@@ -36,7 +36,7 @@ class CashFlowServices:
 
         if not cash_flow:
             raise ValueError(f"Fluxo de caixa não encontrado como o id: '{cash_flow_id}'.")
-        
+
         return cash_flow.to_dict()
 
     def update_cash_flow(self, cash_flow_id: int, updated_data: dict) -> dict:
@@ -96,7 +96,7 @@ class CashFlowServices:
         elif flow_type == "expense":
             event.budget -= value
 
-        self.event_repository.update(event)
+        self.event_repository.update(event_id)
 
     def _get_event_or_raise(self, event_id: int):
         """Obtém um evento ou levanta um erro caso não seja encontrado."""

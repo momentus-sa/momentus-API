@@ -14,7 +14,8 @@ class TeamMemberRepository:
         new_member = TeamMember(
             member_name=data["member_name"],
             event_id=data["event_id"],
-            task=data["task"]  # Alterado de role
+            role=data["role"],
+            tasks=data.get("tasks")
         )
 
         tasks_data = data.get("tasks", [])

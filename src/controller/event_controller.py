@@ -43,6 +43,14 @@ class EventController(object):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
+    def get_upcoming_events(self) -> tuple[Response, int]:
+        """Retorna todos os eventos que ainda não aconteceram"""
+        try:
+            upcoming_events = self.service.get_upcoming_events()
+            return jsonify(upcoming_events), 200
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+
     def get_all_user_events(self) -> tuple[Response, int]:
         """Retorna todos os eventos do usuário"""
         user_id = get_jwt_identity()
@@ -53,11 +61,17 @@ class EventController(object):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
-    def get_upcoming_events(self) -> tuple[Response, int]:
-        """Retorna todos os eventos que ainda não aconteceram"""
+    def get_events_by_category(self, category_id: int) -> tuple[Response, int]:
+        """Retorna todos os eventos associados à categoria especificada."""
+
         try:
-            upcoming_events = self.service.get_upcoming_events()
-            return jsonify(upcoming_events), 200
+            events = self.service.get_events_by_category(category_id)
+
+            if not events:
+                return jsonify({"message": "Nenhum evento encontrado para esta categoria"}), 404
+
+            return jsonify({"events": events}), 200
+
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
 
