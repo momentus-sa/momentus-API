@@ -54,23 +54,21 @@ python app.py
 
 - O servidor inciará na porta:5000: [http://localhost:3000](http://127.0.0.1:5000)
 
-### Website
+## ⚠️ Observação
 
+Não compreendo muito bem o porquê, mas isso parece estar relacionado ao **PYTHONPATH**.  
+O código só funciona corretamente quando executado com:  
+
+´´´
+python -m app
+´´´
+
+No meu computador eu fiz alguma configuração para corrigir isso, mas não lembro exatamente o que era.
+De qualquer forma, funciona. 🚀
 
 ## Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
-
-### Para o front-end:
-- [Node.js](https://nodejs.org/en/)
-- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
-- [React](https://pt-br.reactjs.org/)
-- [NextJS](https://reactnative.dev/)
-
-### Para estilização e bibliotecas de componentes:
-- [Tailwind CSS](https://tailwindcss.com)
-- [Next-UI](https://nextui.org)
-- [React Icons](https://react-icons.github.io/react-icons/)
 
 ### Para o back-end:
 - [Python](https://www.python.org)
@@ -85,9 +83,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - 🗸 Cronograma do evento
 - 🗸 Visualizar eventos
 - 🗸 Tipos de ingresso e quantidade de participantes
-- 🗸 Acompanhar detalhes da programação
 - 🗸 Gerenciamento de equipe e tarefas atribuídas aos membros
-- 🗸 O participante pode confirmar sua presença no evento
 - 🗸 Exibição de informações detalhadas sobre o evento, como descrição, cronograma, local, ingressos disponíveis, e links para confirmação de presença
 - ⌛ Ferramentas de análise em tempo real
 - ⌛ Relatórios de vendas e feedback do público
