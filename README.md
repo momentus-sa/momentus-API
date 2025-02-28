@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![CAPA - GITHUB](https://github.com/user-attachments/assets/9f65d5a1-9604-4685-aa7d-2ecfe42bef73)
 
 <h1 align="center">momentus</h1>
@@ -113,3 +114,4 @@ As seguintes ferramentas foram usadas na construção do projeto:
 <h4 align="start"> 
 🚧 Em construção... 🚧  
 </h4>
+gi
