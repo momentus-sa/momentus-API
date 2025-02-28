@@ -72,7 +72,7 @@ De qualquer forma, funciona. 🚀
 ## Documentação
 Caso queira aprender sobre os endpoints da momentus-API e como usá-la, verifique a documentação no postman:
 
-#### 📖[Momentus-API-Docs](https://web.postman.co/documentation/35177931-5ca99b43-d556-4fb0-a3f2-b646031b96e5/publish?workspaceId=b1ff0c41-aba9-41a0-852f-c0cca414eaaf)
+#### 📖[Momentus-API-Docs](https://documenter.getpostman.com/view/35177931/2sAYdhKWA5)
 
 
 ## Tecnologias
