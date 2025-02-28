@@ -17,7 +17,7 @@ from src.models.user import User
 def create_app():
     """Cria o server e inicializa alguns módulos"""
     app = Flask(__name__)
-    app.config.from_object(DevelopmentConfig)
+    app.config.from_object(ProductionConfig)
 
     # Extensões:
     db.init_app(app)
